@@ -16,7 +16,10 @@ public class MealServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.info("getAll");
+        //кладем в атрибуты под ключем "meals" список еды
+        //в модели MVC контроллером является сервлета, вьюхой -отрисовка jsp, моделью-то, что кладем в атрибуты
         request.setAttribute("meals", MealsUtil.getTos(MealsUtil.MEALS, MealsUtil.DEFAULT_CALORIES_PER_DAY));
+        //форвардим на "/meals.jsp"
         request.getRequestDispatcher("/meals.jsp").forward(request, response);
     }
 }
