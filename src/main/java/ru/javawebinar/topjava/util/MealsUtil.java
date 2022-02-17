@@ -14,6 +14,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class MealsUtil {
+    //дневное ограничние калорий
     public static final int DEFAULT_CALORIES_PER_DAY = 2000;
 
     //список еды сделали статическим членом класса
@@ -27,21 +28,29 @@ public class MealsUtil {
             new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510)
     );
 
-    //метод вызывает getFiltered()
+    //метод вызывает getFiltered() посылая туда List<Meal>, кол-во дневных калорий и предикат который всегда true тк мы хотим вывести все записи без фильтрации
     public static List<MealTo> getTos(List<Meal> meals, int caloriesPerDay) {
-        return getFiltered(meals, caloriesPerDay, meal -> true);
+        return getFiltered(meals, caloriesPerDay, new Predicate<Meal>() {
+            @Override
+            public boolean test(Meal meal) {
+                return true;
+            }
+        });
     }
 
     public static List<MealTo> getFilteredTos(List<Meal> meals, int caloriesPerDay, LocalTime startTime, LocalTime endTime) {
         return getFiltered(meals, caloriesPerDay, meal -> DateTimeUtil.isBetween(meal.getTime(), startTime, endTime));
     }
 
+    //получаем List<Meal>, кол-во дневных калорий и предикат который всегда true тк мы хотим вывести все записи без фильтрации
     private static List<MealTo> getFiltered(List<Meal> meals, int caloriesPerDay, Predicate<Meal> filter) {
+        //получаем сгруппированную по дате мапу в ключах которых неповторяющиеся даты а в значениях сумма калорий по этой дате за завтрак обед и ужин
         Map<LocalDate, Integer> caloriesSumByDate = meals.stream()
                 .collect(
                         Collectors.groupingBy(Meal::getDate, Collectors.summingInt(Meal::getCalories))
 //                      Collectors.toMap(Meal::getDate, Meal::getCalories, Integer::sum)
                 );
+        //из метода возвращаем List<MealTo> полученный с помощью фильтрации и map
         return meals.stream()
                 .filter(filter)
                 .map(meal -> createTo(meal, caloriesSumByDate.get(meal.getDate()) > caloriesPerDay))
