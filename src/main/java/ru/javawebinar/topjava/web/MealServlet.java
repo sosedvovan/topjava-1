@@ -16,23 +16,24 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
-
+//с версии 2.3 должен быть среад-сейф тк все запросы идут чз него
 public class MealServlet extends HttpServlet {
     private static final Logger log = LoggerFactory.getLogger(MealServlet.class);
 
     private MealRepository repository;
 
-    @Override
+    @Override//показал, что есть метод init() и можно размещать логику
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         repository = new InMemoryMealRepository();
     }
 
-    @Override
+    @Override//принимаем данные из формы
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String id = request.getParameter("id");
 
+        //если id пустой- создаем новую еду иначе берем все проперти еды из запроса и делаем save и редирект на список
         Meal meal = new Meal(id.isEmpty() ? null : Integer.valueOf(id),
                 LocalDateTime.parse(request.getParameter("dateTime")),
                 request.getParameter("description"),
@@ -47,20 +48,20 @@ public class MealServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
 
-        switch (action == null ? "all" : action) {
+        switch (action == null ? "all" : action) {//если action нет, отдаем весь список
             case "delete":
-                int id = getId(request);
+                int id = getId(request);//берем Id из запроса с пом служебного метода
                 log.info("Delete {}", id);
                 repository.delete(id);
-                response.sendRedirect("meals");
+                response.sendRedirect("meals");//редирект на список
                 break;
             case "create":
             case "update":
-                final Meal meal = "create".equals(action) ?
+                final Meal meal = "create".equals(action) ?//если action "create" создаем Meal по умолчанию
                         new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000) :
-                        repository.get(getId(request));
-                request.setAttribute("meal", meal);
-                request.getRequestDispatcher("/mealForm.jsp").forward(request, response);
+                        repository.get(getId(request));//иначе берем из репозитория
+                request.setAttribute("meal", meal);//в запрос кладем еду кот. создали или редактируем
+                request.getRequestDispatcher("/mealForm.jsp").forward(request, response);//и отправляемся на "/mealForm.jsp" в кот форма для редактирования
                 break;
             case "all":
             default:

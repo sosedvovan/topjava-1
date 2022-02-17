@@ -3,7 +3,7 @@ package ru.javawebinar.topjava.repository;
 import ru.javawebinar.topjava.model.Meal;
 
 import java.util.Collection;
-
+//DAO работает с ентити а Репозиторий с объектами более высокого уровня
 public interface MealRepository {
     // null if not found, when updated
     Meal save(Meal meal);

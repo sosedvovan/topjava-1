@@ -9,7 +9,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class InMemoryMealRepository implements MealRepository {
+    //в Meal и MealTo добавили поле id, чтобы пользоваться Map- ConcurrentHashMap:
     private Map<Integer, Meal> repository = new ConcurrentHashMap<>();
+    //уникальный счетчик:
     private AtomicInteger counter = new AtomicInteger(0);
 
     {
@@ -18,9 +20,10 @@ public class InMemoryMealRepository implements MealRepository {
 
     @Override
     public Meal save(Meal meal) {
+        //isNew() проверяет id на null
         if (meal.isNew()) {
-            meal.setId(counter.incrementAndGet());
-            repository.put(meal.getId(), meal);
+            meal.setId(counter.incrementAndGet());//добавляем уникальный идентификатор
+            repository.put(meal.getId(), meal);//кладем в Мапу
             return meal;
         }
         // treat case: update, but not present in storage
@@ -40,6 +43,6 @@ public class InMemoryMealRepository implements MealRepository {
     @Override
     public Collection<Meal> getAll() {
         return repository.values();
-    }
+    }//берем все значения из Мапы
 }
 
