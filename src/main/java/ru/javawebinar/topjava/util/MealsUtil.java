@@ -23,9 +23,13 @@ public class MealsUtil {
             new Meal(LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500),
             new Meal(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000),
             new Meal(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500),
-            new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510)
+            new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510),
+            new Meal(LocalDateTime.of(2021, Month.MAY, 31, 20, 0), "перекус", 510),
+            new Meal(10,LocalDateTime.of(2021, Month.MAY, 31, 22, 0), "перекус2", 610)
     );
 
+    //метод запускает метод getFiltered() с реализацией(куском кода) предиката всегда true
+    //принимает Collection<Meal> meals - это то что вернет repository.getAll()
     public static List<MealTo> getTos(Collection<Meal> meals, int caloriesPerDay) {
         return getFiltered(meals, caloriesPerDay, meal -> true);
     }
@@ -35,13 +39,15 @@ public class MealsUtil {
     }
 
     private static List<MealTo> getFiltered(Collection<Meal> meals, int caloriesPerDay, Predicate<Meal> filter) {
+        //сначала делаем группировку Collection<Meal> по дате с суммированием калорий
         Map<LocalDate, Integer> caloriesSumByDate = meals.stream()
                 .collect(
                         Collectors.groupingBy(Meal::getDate, Collectors.summingInt(Meal::getCalories))
 //                      Collectors.toMap(Meal::getDate, Meal::getCalories, Integer::sum)
                 );
+        //далее возвращаем List<MealTo> изготовленного с пом срим-методов map и collect
         return meals.stream()
-                .filter(filter)
+                .filter(filter)//всегда true пока
                 .map(meal -> createTo(meal, caloriesSumByDate.get(meal.getDate()) > caloriesPerDay))
                 .collect(Collectors.toList());
     }

@@ -48,12 +48,13 @@ public class MealServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
 
-        switch (action == null ? "all" : action) {//если action нет, отдаем весь список
-            case "delete":
+        switch (action == null ? "all" : action) {//если action нет, тогда делаем action=all и обрабатываем в case "all": отдаем весь список
+            case "delete"://если в табличке всех приемов meals.jsp выбрали delete
                 int id = getId(request);//берем Id из запроса с пом служебного метода
                 log.info("Delete {}", id);
                 repository.delete(id);
-                response.sendRedirect("meals");//редирект на список
+                response.sendRedirect("meals");//редирект на список (вызываем сервлету гет-запросом без параметров-
+                // те сюда придет с action == null и получится action == case "all") так жа как и из index.html сюда попадаем
                 break;
             case "create":
             case "update":
@@ -66,15 +67,20 @@ public class MealServlet extends HttpServlet {
             case "all":
             default:
                 log.info("getAll");
+                //здесь надо отобразить весь список. создаем атрибут "meals" в который кладем список всех приемов пищи List<MealTo>(это кот с полем boolean excess)
+                // В MealsUtil.getTos отправляем все значения из Мапы(repository.getAll()) и константу макс калорийности и получаем List<MealTo>
                 request.setAttribute("meals",
                         MealsUtil.getTos(repository.getAll(), MealsUtil.DEFAULT_CALORIES_PER_DAY));
+                //форвардимся на "/meals.jsp" передавая туда request, response. там из request возьмем атрибут в цикле: <c:forEach items="${meals}" var="meal">
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
                 break;
         }
     }
 
     private int getId(HttpServletRequest request) {
+        //бросаем NullPointerException если в параметрах в id ничего нет, если есть- присваиваем строке
         String paramId = Objects.requireNonNull(request.getParameter("id"));
+        //строку в число переводим
         return Integer.parseInt(paramId);
     }
 }
