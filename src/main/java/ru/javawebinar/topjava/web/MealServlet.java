@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
-//с версии 2.3 должен быть среад-сейф тк все запросы идут чз него
+//с версии 2.3 должен быть среад-сейф тк все запросы идут чз него(до этой версии исп пулл потоков)
 public class MealServlet extends HttpServlet {
     private static final Logger log = LoggerFactory.getLogger(MealServlet.class);
 
