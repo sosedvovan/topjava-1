@@ -6,6 +6,7 @@ import java.util.Set;
 
 import static ru.javawebinar.topjava.util.MealsUtil.DEFAULT_CALORIES_PER_DAY;
 
+//класс хранит персональные данные отдельного юзера
 public class User extends AbstractNamedEntity {
 
     private String email;
@@ -16,14 +17,16 @@ public class User extends AbstractNamedEntity {
 
     private Date registered = new Date();
 
+//    в енуме Role-2-е роли: ROLE_USER и ROLE_ADMIN
     private Set<Role> roles;
 
     private int caloriesPerDay = DEFAULT_CALORIES_PER_DAY;
 
+//    низкоуровневый конструктор передает в основной след. параметры:
     public User(Integer id, String name, String email, String password, Role role, Role... roles) {
         this(id, name, email, password, DEFAULT_CALORIES_PER_DAY, true, EnumSet.of(role, roles));
     }
-
+//    высокоуровневый конструктор:
     public User(Integer id, String name, String email, String password, int caloriesPerDay, boolean enabled, Set<Role> roles) {
         super(id, name);
         this.email = email;

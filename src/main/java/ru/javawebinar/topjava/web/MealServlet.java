@@ -74,8 +74,8 @@ public class MealServlet extends HttpServlet {
         String action = request.getParameter("action");
 
 //        в блоке switch обрабатываем пришедший action.
-//        если action == null, тогда присваиваем action == all, идем в case "all" в котором...
-//
+//        если action == null, тогда присваиваем action == all, идем в case "all" в котором
+//        под атрибутом "meals" отсылаем на отрисовку в meals.jsp то, что вернет наш контроллер mealController.getAll()
         switch (action == null ? "all" : action) {
             case "delete":
                 int id = getId(request);

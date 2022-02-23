@@ -4,6 +4,7 @@ import ru.javawebinar.topjava.model.User;
 
 import java.util.List;
 
+//интерфейс с абстрактными методами - то, что должен уметь DAO для User'ov
 public interface UserRepository {
     // null if not found, when updated
     User save(User user);

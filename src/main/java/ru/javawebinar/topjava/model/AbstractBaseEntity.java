@@ -1,6 +1,8 @@
 package ru.javawebinar.topjava.model;
 
+//от него наследуются классы модели и класс репозитория InMemoryBaseRepository
 public abstract class AbstractBaseEntity {
+
     protected Integer id;
 
     protected AbstractBaseEntity(Integer id) {

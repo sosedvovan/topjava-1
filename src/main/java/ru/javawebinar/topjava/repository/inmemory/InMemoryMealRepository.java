@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 import static ru.javawebinar.topjava.repository.inmemory.InMemoryUserRepository.ADMIN_ID;
 import static ru.javawebinar.topjava.repository.inmemory.InMemoryUserRepository.USER_ID;
-
+// класс типа DAO должен предоставлять методы взаимодействия с Meal-ДБ
 @Repository
 public class InMemoryMealRepository implements MealRepository {
 
@@ -51,8 +51,10 @@ public class InMemoryMealRepository implements MealRepository {
         return meals == null ? null : meals.get(id);
     }
 
+//    метод, по запросу из MealService возвращает список всей еды List<Meal>, отправляя туда userId
     @Override
     public List<Meal> getAll(int userId) {
+//        обращаемся к своему private методу:
         return getAllFiltered(userId, meal -> true);
     }
 
@@ -61,7 +63,9 @@ public class InMemoryMealRepository implements MealRepository {
         return getAllFiltered(userId, meal -> Util.isBetweenInclusive(meal.getDateTime(), startDateTime, endDateTime));
     }
 
+//    метод возвращает лист со всей едой пользователя
     private List<Meal> getAllFiltered(int userId, Predicate<Meal> filter) {
+//
         InMemoryBaseRepository<Meal> meals = usersMealsMap.get(userId);
         return meals == null ? Collections.emptyList() :
                 meals.getCollection().stream()

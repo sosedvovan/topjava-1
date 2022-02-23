@@ -11,10 +11,12 @@ public class Meal extends AbstractBaseEntity {
 
     private final int calories;
 
+//    низкоуровневый
     public Meal(LocalDateTime dateTime, String description, int calories) {
         this(null, dateTime, description, calories);
     }
 
+//    высокоуровневый
     public Meal(Integer id, LocalDateTime dateTime, String description, int calories) {
         super(id);
         this.dateTime = dateTime;

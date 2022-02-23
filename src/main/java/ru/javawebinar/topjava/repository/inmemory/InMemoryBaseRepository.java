@@ -8,11 +8,15 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+//класс типа DAO, параметризирован наследниками класса AbstractBaseEntity, относящемуся к model, а это Meal или User
+//от него наследуется InMemoryBaseRepository<User>
 @Repository
 public class InMemoryBaseRepository<T extends AbstractBaseEntity> {
 
+//    сейф-треад счетчик:
     private static AtomicInteger counter = new AtomicInteger(0);
 
+//    сейф-треад ConcurrentHashMap, где ключ- это Id, а значение- это
     private Map<Integer, T> map = new ConcurrentHashMap<>();
 
     public T save(T entry) {

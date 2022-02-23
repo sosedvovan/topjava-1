@@ -1,7 +1,7 @@
 package ru.javawebinar.topjava.to;
 
 import java.time.LocalDateTime;
-
+// transfer obgect for Meal. Класс- типа модели. Содержит только данные.
 public class MealTo {
     private final Integer id;
 

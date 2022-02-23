@@ -22,6 +22,8 @@ import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
 public class MealRestController {
     private static final Logger log = LoggerFactory.getLogger(MealRestController.class);
 
+//  поле инициализируется MealService-ом Спрингом тк здесь над конструктором стоит @Autowired
+//  а над MealService стоит @Service
     private final MealService service;
 
     @Autowired
@@ -41,9 +43,13 @@ public class MealRestController {
         service.delete(id, userId);
     }
 
+//по запросу из сервлеты MealServlet возвращает список List<MealTo> для отправки на отрисовку meals.jsp
     public List<MealTo> getAll() {
+//      получаем userId у утильного класса: SecurityUtil.authUserId()
         int userId = SecurityUtil.authUserId();
+//      печатаем в лог-файл
         log.info("getAll for user {}", userId);
+
         return MealsUtil.getTos(service.getAll(userId), SecurityUtil.authUserCaloriesPerDay());
     }
 

@@ -5,6 +5,7 @@ import ru.javawebinar.topjava.model.Meal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+//интерфейс с абстрактными методами - то, что должен уметь DAO для Meal(еды)
 public interface MealRepository {
     // null if updated meal do not belong to userId
     Meal save(Meal meal, int userId);

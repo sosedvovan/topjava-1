@@ -10,12 +10,16 @@ import java.util.List;
 
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFound;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
+//бизнес логика для User. если ей нужен доступ к ДБ, то она обращается к repository
 
 @Service
 public class UserService {
 
+    //    поле- интерфейс MealRepository получает свою реализацию в виде InMemoryUserRepository
+    //    это репозиторий к которому будет обращаться этот сервис, если ему что-то понадобится в ДБ
     private final UserRepository repository;
 
+    //    конструктор. Спринг автоматически инициализирует поле repository бином UserRepository кот берет из своего контекста.
     @Autowired
     public UserService(UserRepository repository) {
         this.repository = repository;
