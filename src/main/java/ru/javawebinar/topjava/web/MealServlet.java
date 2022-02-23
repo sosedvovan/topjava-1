@@ -21,20 +21,30 @@ import java.util.Objects;
 import static ru.javawebinar.topjava.util.DateTimeUtil.parseLocalDate;
 import static ru.javawebinar.topjava.util.DateTimeUtil.parseLocalTime;
 
+//сервлета, управляющая едой юзеров (принимает запросы, связанные с  едой пользователей)
 public class MealServlet extends HttpServlet {
 
+//    в поля сервлеты перенесли некоторый функционал из тестового класса SpringMain.
+//    поле с самим контекстом из которого можно доставать созданные Спрингом Бины
     private ConfigurableApplicationContext springContext;
+//    поле с DAO контроллером еды пользователя
     private MealRestController mealController;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
+//        воспользуемся тем, что TomCat сам вызывает этот метод при инициализации этой сервлеты,
+//        переопределим его таким образом, чтобы еще и инициализировать поля этого класса.
         super.init(config);
+//       инициализируем контекст, указывая spring-context-у на  xml с его конфигурацией, в которой сейчас
+//       указанны директории проекта, которые надо просканировать на предмет аннотаций
         springContext = new ClassPathXmlApplicationContext("spring/spring-app.xml");
+//      выбираем- какой контроллер будем исспользовать- и это -  MealRestController.
         mealController = springContext.getBean(MealRestController.class);
     }
 
     @Override
     public void destroy() {
+//        переопределим destroy() метод spring-context-а, чтобы при закрытии контекста каким-то образом срабатывал логгер
         springContext.close();
         super.destroy();
     }
@@ -57,8 +67,15 @@ public class MealServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//       первоначально сюда попадаем из другой сервлеты-users с action == null.
+//       те после того как определились- с каким юзером или администратором работаем
+
+//        В String action берем параметр action из  request-а (action будет null или конкретный)
         String action = request.getParameter("action");
 
+//        в блоке switch обрабатываем пришедший action.
+//        если action == null, тогда присваиваем action == all, идем в case "all" в котором...
+//
         switch (action == null ? "all" : action) {
             case "delete":
                 int id = getId(request);

@@ -6,12 +6,17 @@
 <body>
 <h3>Проект <a href="https://github.com/JavaWebinar/topjava" target="_blank">Java Enterprise (Topjava)</a></h3>
 <hr>
+<!--В сервлету "users" в метод doPost отправляем пост запрос-->
 <form method="post" action="users">
+<!--    реализуем выбор из выпадающего списка:-->
+<!--    <b>Meals of&nbsp;</b> это боковой заголовок к выпадающемпу списку - жирный текст?-->
     <b>Meals of&nbsp;</b>
+<!--    далее в теге </select> задаем ключ name="userId" и выбираем его значение User это "1" или Admin это "2"-->
     <select name="userId">
         <option value="1">User</option>
         <option value="2">Admin</option>
     </select>
+<!--    кнопка отправит в сервлету "users" в метод doPost эту пару ключ"userId"-значение User"1" или Admin"2"-->
     <button type="submit">Select</button>
 </form>
 </body>
