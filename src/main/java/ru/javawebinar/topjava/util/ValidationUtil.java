@@ -19,12 +19,14 @@ public class ValidationUtil {
         return object;
     }
 
+//    наш-ран-тайм ексепшн бросаем в случае NotFound
     public static void checkNotFound(boolean found, String msg) {
         if (!found) {
             throw new NotFoundException("Not found entity with " + msg);
         }
     }
 
+//    если не новый (уже существует) - бросаем IllegalArgumentException
     public static void checkNew(AbstractBaseEntity entity) {
         if (!entity.isNew()) {
             throw new IllegalArgumentException(entity + " must be new (id=null)");

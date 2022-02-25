@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+//наш знакомый класс. возвращает List<MealTo>, отфильтрованный по заданной дате и времени
 public class MealsUtil {
     public static final int DEFAULT_CALORIES_PER_DAY = 2000;
 

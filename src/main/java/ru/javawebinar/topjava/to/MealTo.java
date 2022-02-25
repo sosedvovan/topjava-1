@@ -1,7 +1,8 @@
 package ru.javawebinar.topjava.to;
 
 import java.time.LocalDateTime;
-// transfer obgect for Meal. Класс- типа модели. Содержит только данные.
+// transfer obgect for Meal. Класс- типа модели. Содержит только данные. Добавляет к еде boolean excess
+// фабричный класс для него это- MealsUtil
 public class MealTo {
     private final Integer id;
 

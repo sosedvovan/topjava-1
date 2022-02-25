@@ -5,6 +5,8 @@ import ru.javawebinar.topjava.model.User;
 
 import java.util.List;
 
+// в этом классе реализованны(переопределенны) crud методы для юзера-админа
+// в методах функционал делегируется в супер класс
 @Controller
 public class AdminRestController extends AbstractUserController {
 

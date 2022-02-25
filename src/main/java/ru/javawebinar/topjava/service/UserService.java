@@ -12,6 +12,7 @@ import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFound;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
 //бизнес логика для User. если ей нужен доступ к ДБ, то она обращается к repository
 
+// @Service указывает на то, что в контексте Спринга будет создан Бин этого класса для дальнейшей DI этого бина
 @Service
 public class UserService {
 
@@ -25,26 +26,32 @@ public class UserService {
         this.repository = repository;
     }
 
+//  вызывает метод репозитория  repository.save(user)
     public User create(User user) {
         return repository.save(user);
     }
 
+//  произойдет удаление и результат(буль) работы repository.delete(id) еще отправиться на проверку на NotFound
     public void delete(int id) throws NotFoundException {
         checkNotFoundWithId(repository.delete(id), id);
     }
 
+//  //  произойдет взятие и результат(User) работы repository.get(id) еще отправиться на проверку на NotFoundWithId
     public User get(int id) throws NotFoundException {
         return checkNotFoundWithId(repository.get(id), id);
     }
 
+//  произойдет взятие по емейлу и результат(User) работы getByEmail(email) еще отправиться на проверку на NotFound
     public User getByEmail(String email) throws NotFoundException {
         return checkNotFound(repository.getByEmail(email), "email=" + email);
     }
 
+//  возвращает List<User> - это мы вернем возврат из метода из repository.getAll()
     public List<User> getAll() {
         return repository.getAll();
     }
 
+//  произойдет update и результат(User) работы repository.delete(id) еще отправиться на проверку на NotFoundWithId
     public void update(User user) throws NotFoundException {
         checkNotFoundWithId(repository.save(user), user.getId());
     }

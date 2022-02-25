@@ -5,6 +5,8 @@ import ru.javawebinar.topjava.model.User;
 
 import static ru.javawebinar.topjava.web.SecurityUtil.authUserId;
 
+// в этом классе реализованны(переопределенны) crud методы для юзеров
+// в методах функционал делегируется в супер класс
 @Controller
 public class ProfileRestController extends AbstractUserController {
 

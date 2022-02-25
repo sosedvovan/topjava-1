@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 // класс типа DAO должен предоставлять методы взаимодействия с User-ДБ
+
+// @Repository указывает на то, что в контексте Спринга будет создан Бин этого класса для дальнейшей DI этого бина
 @Repository
 public class InMemoryUserRepository extends InMemoryBaseRepository<User> implements UserRepository {
 

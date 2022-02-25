@@ -18,14 +18,21 @@ import java.util.List;
 import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
 // класс-контроллер-репозиторий-DAO для еды пользователя
+
+// @Controller указывает на то, что в контексте Спринга будет создан Бин этого класса для дальнейшей DI этого бина или в него
+// К ЭТОМУ КЛАССУ (И ТОЛЬКО К ЭТОМУ) КОНТРОЛЛЕРУ МЫ БУДЕМ ОБРАЩАТЬСЯ ИЗ НАШИХ СЕРВЛЕТ по поводу еды
 @Controller
 public class MealRestController {
     private static final Logger log = LoggerFactory.getLogger(MealRestController.class);
 
 //  поле инициализируется MealService-ом Спрингом тк здесь над конструктором стоит @Autowired
 //  а над MealService стоит @Service
+
+//  в каждом методе этого класса идет обращение к методам MealService service из которых идет обращение
+//  к repository- к одной из реализаций: MealRepository(InMemoryMealRepository)
     private final MealService service;
 
+//    Спринг автоматом достанет из своего контекста Бин MealService(@Service) и инициализирует это поле этого контроллера
     @Autowired
     public MealRestController(MealService service) {
         this.service = service;

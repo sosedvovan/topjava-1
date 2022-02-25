@@ -15,6 +15,8 @@ import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
 
 //бизнес логика для Meal. если ей нужен доступ к ДБ, то она обращается к repository
 //здесь вызываются проверки возвратов-из-методов-репозитория
+
+// @Service указывает на то, что в контексте Спринга будет создан Бин этого класса для дальнейшей DI
 @Service
 public class MealService {
 

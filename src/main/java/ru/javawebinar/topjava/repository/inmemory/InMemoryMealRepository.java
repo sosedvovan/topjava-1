@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 import static ru.javawebinar.topjava.repository.inmemory.InMemoryUserRepository.ADMIN_ID;
 import static ru.javawebinar.topjava.repository.inmemory.InMemoryUserRepository.USER_ID;
 // класс типа DAO должен предоставлять методы взаимодействия с Meal-ДБ
+
+// @Repository указывает на то, что в контексте Спринга будет создан Бин этого класса для дальнейшей DI этого бина
 @Repository
 public class InMemoryMealRepository implements MealRepository {
 

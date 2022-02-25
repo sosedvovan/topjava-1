@@ -11,9 +11,12 @@ import java.util.List;
 import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
 
+// К ЭТОМУ КЛАССУ (И ТОЛЬКО К ЭТОМУ и его наследникам) КОНТРОЛЛЕРУ МЫ БУДЕМ ОБРАЩАТЬСЯ ИЗ НАШИХ СЕРВЛЕТ по поводу юзеров
+//в этом классе реализованны crud методы для работы с данными, кот обращаются в UserService(@Service)
 public abstract class AbstractUserController {
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
+    //    Спринг автоматом достанет из своего контекста Бин UserService(@Service) и инициализирует это поле этого контроллера
     @Autowired
     private UserService service;
 
