@@ -43,13 +43,17 @@ public class InMemoryBaseRepository<T extends AbstractBaseEntity> {
      * }
      */
 
+//    Класс поставляет объекты, кот содержат в себе ConcurrentHashMap<> в которой:
+            //если<Meal>: ключи-id еды, значения-Meal
+            //если<User>: ключи-id юзеров, значения-User
+
 //   объявляем сейф-треад счетчик:
     private static AtomicInteger counter = new AtomicInteger(0);
 
 //    сейф-треад ConcurrentHashMap, где ключ- это Id(Atomic counter), а значение- это то, чем параметризирован класс. те User
     private Map<Integer, T> map = new ConcurrentHashMap<>();
 
-//   метод кладет в мапу Usera под ключем counter.incrementAndGet(работает только в ConcurrentHashMap?)
+//   метод для заполнения этой мапы кладет в мапу Usera или Meal под ключем counter.incrementAndGet(работает только в ConcurrentHashMap?)
 //    принимает объект юзера
     public T save(T entry) {
 //     isNew() вернет true, если поле id ( унаследованное от AbstractBaseEntity ) id == null
@@ -62,7 +66,9 @@ public class InMemoryBaseRepository<T extends AbstractBaseEntity> {
             return entry;
         }
 //      Если значение для указанного ключа присутствует и не равно нулю, предпринимаются попытки
-//     * вычислить новое сопоставление с учетом ключа и его текущего сопоставленного значения.
+//      вычислить новое сопоставление с учетом ключа и его текущего сопоставленного значения с пом Functional
+//      В данном случае если ключ присутствует, то при вычислении нового значения получится такой же объект, что и был
+//      Если такой ключ отсутствует, то в мапе ничего не изменется
         return map.computeIfPresent(entry.getId(), (id, oldT) -> entry);
     }
 

@@ -57,7 +57,9 @@ public class MealRestController {
 //      печатаем в лог-файл
         log.info("getAll for user {}", userId);
 
-        return MealsUtil.getTos(service.getAll(userId), SecurityUtil.authUserCaloriesPerDay());
+        List<Meal> all = service.getAll(userId);
+        int caloriesPerDay = SecurityUtil.authUserCaloriesPerDay();
+        return MealsUtil.getTos(all, caloriesPerDay);
     }
 
     public Meal create(Meal meal) {
