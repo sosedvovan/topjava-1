@@ -51,9 +51,11 @@ public class InMemoryMealRepository implements MealRepository {
 
     @Override
     public Meal save(Meal meal, int userId) {
-        //создаем сначала пустой объект InMemoryBaseRepository<>() кот содержат в себе ConcurrentHashMap<> в которой по идее должна быть вся еда юзера1
+        //с помощью метода computeIfAbsent(создать если отсутствует)-создаем сначала пустой объект InMemoryBaseRepository<>()
+        // кот содержат в себе ConcurrentHashMap<> в которой по идее должна быть вся еда юзера1
         InMemoryBaseRepository<Meal> meals = usersMealsMap.computeIfAbsent(userId, uid -> new InMemoryBaseRepository<>());
-        //и в этом пустом объекте заполняем его внутреннюю мапу приемами пищи с пом его метода save
+        //и в этом пустом объекте заполняем его внутреннюю мапу приемами пищи
+        // с пом его метода save(в кот. может инициализироваться в объекте Meal поле id в случае если оно ==null с пом счетчика-атомика)
         return meals.save(meal);
     }
 
@@ -82,6 +84,7 @@ public class InMemoryMealRepository implements MealRepository {
         return getAllFiltered(userId, meal -> true);
     }
 
+    //берем еду между заданными датами с пом. утильного метода класса Util
     @Override
     public List<Meal> getBetween(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
         return getAllFiltered(userId, meal -> Util.isBetweenInclusive(meal.getDateTime(), startDateTime, endDateTime));

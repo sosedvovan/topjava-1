@@ -19,6 +19,9 @@ import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
 // @Service указывает на то, что в контексте Спринга будет создан Бин этого класса для дальнейшей DI
 @Service
 public class MealService {
+//клас имеет в поле репозиторий InMemoryMealRepository implements MealRepository
+    //и методы типа CRUD для работы с этим репозиторием
+
 
 //    поле- интерфейс MealRepository получает свою реализацию в виде InMemoryMealRepository
 //    это репозиторий к которому будет обращаться этот сервис, если ему что-то понадобится в ДБ

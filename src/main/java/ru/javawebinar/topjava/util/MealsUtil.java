@@ -17,8 +17,10 @@ import java.util.stream.Collectors;
 
 //наш знакомый класс. возвращает List<MealTo>, отфильтрованный по заданной дате и времени
 public class MealsUtil {
+    //утильный класс, который не имеет своих значимых полей, а содержит только методы, которыми пользуются другие классы
     public static final int DEFAULT_CALORIES_PER_DAY = 2000;
 
+    //создаем лист MEALS с объектами приемов пищи Meals
     public static final List<Meal> MEALS = Arrays.asList(
             new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500),
             new Meal(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000),
@@ -28,6 +30,8 @@ public class MealsUtil {
             new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510)
     );
 
+    //метод, запускающий другие методы и в результате получающий List<MealTo> для его возврата из себя
+    //получает Collection<Meal> meals и int caloriesPerDay   и   запускает getFiltered()  (второй, кот перегруженный)
     public static List<MealTo> getTos(Collection<Meal> meals, int caloriesPerDay) {
         return getFiltered(meals, caloriesPerDay, meal -> true);
     }
@@ -36,6 +40,9 @@ public class MealsUtil {
         return getFiltered(meals, caloriesPerDay, meal -> Util.isBetweenInclusive(meal.getTime(), startTime, endTime));
     }
 
+    //в методе: пришедшая коллекция приемов пищи группируется по дате с суммированием калорий в одной дате, те
+    //получаем Мапу в ключах- даты, в значениях суммы калорий
+    //вторым шагом из объектов Meal делаем MealTo, return List<MealTo>.
     private static List<MealTo> getFiltered(Collection<Meal> meals, int caloriesPerDay, Predicate<Meal> filter) {
         Map<LocalDate, Integer> caloriesSumByDate = meals.stream()
                 .collect(
@@ -48,6 +55,7 @@ public class MealsUtil {
                 .collect(Collectors.toList());
     }
 
+    //вспомогательный метод, вызывается из getFiltered()
     private static MealTo createTo(Meal meal, boolean excess) {
         return new MealTo(meal.getId(), meal.getDateTime(), meal.getDescription(), meal.getCalories(), excess);
     }
